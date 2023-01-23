@@ -17,7 +17,6 @@
 package com.pedro.rtplibrary.base;
 
 import android.content.Context;
-import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.hardware.camera2.CameraCharacteristics;
 import android.media.MediaCodec;
@@ -35,6 +34,7 @@ import android.view.TextureView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
 import com.pedro.encoder.Frame;
 import com.pedro.encoder.audio.AudioEncoder;
 import com.pedro.encoder.audio.GetAacData;
@@ -150,6 +150,10 @@ public abstract class Camera2Base implements GetAacData, GetVideoData, GetMicrop
     videoEncoder = new VideoEncoder(this);
     setMicrophoneMode(MicrophoneMode.ASYNC);
     recordController = new AndroidMuxerRecordController();
+  }
+
+  public void setFps(int fps) {
+    videoEncoder.setFps(fps);
   }
 
   /**

@@ -6,7 +6,8 @@ android {
 
   defaultConfig {
     applicationId "com.pedro.rtpstreamer"
-    minSdkVersion 16
+    // Camera2 requires sdk21
+    minSdkVersion 21
     targetSdkVersion 33
     versionCode version_code
     versionName version_name

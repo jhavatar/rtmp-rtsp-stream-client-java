@@ -138,6 +138,10 @@ public abstract class Camera1Base
     recordController = new AndroidMuxerRecordController();
   }
 
+  public void setFps(int fps) {
+    videoEncoder.setFps(fps);
+  }
+
   /**
    * Must be called before prepareAudio.
    *

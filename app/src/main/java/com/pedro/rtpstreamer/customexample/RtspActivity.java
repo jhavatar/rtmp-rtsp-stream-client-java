@@ -16,9 +16,11 @@
 
 package com.pedro.rtpstreamer.customexample;
 
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -44,6 +46,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.pedro.encoder.input.video.CameraHelper;
 import com.pedro.encoder.input.video.CameraOpenException;
 import com.pedro.rtplibrary.rtsp.RtspCamera1;
+import com.pedro.rtplibrary.util.FpsListener;
+import com.pedro.rtplibrary.view.OpenGlView;
+import com.pedro.rtplibrary.view.TakePhotoCallback;
 import com.pedro.rtpstreamer.R;
 import com.pedro.rtpstreamer.utils.PathUtils;
 import com.pedro.rtsp.rtsp.Protocol;
@@ -68,10 +73,12 @@ public class RtspActivity extends AppCompatActivity
     implements Button.OnClickListener, ConnectCheckerRtsp, SurfaceHolder.Callback,
     View.OnTouchListener {
 
+  private static final int DEFAULT_FPS = 120;
+
   private Integer[] orientations = new Integer[] { 0, 90, 180, 270 };
 
   private RtspCamera1 rtspCamera1;
-  private SurfaceView surfaceView;
+  private OpenGlView surfaceView;
   private Button bStartStop, bRecord;
   private EditText etUrl;
   private String currentDateAndTime = "";
@@ -101,7 +108,18 @@ public class RtspActivity extends AppCompatActivity
     surfaceView = findViewById(R.id.surfaceView);
     surfaceView.getHolder().addCallback(this);
     surfaceView.setOnTouchListener(this);
+    surfaceView.takePhoto(new TakePhotoCallback() {
+      private FpsListener fpsListener = new FpsListener(fps -> {
+        Log.v("POC", "fps = " + fps);
+      });
+
+      @Override
+      public void onTakePhoto(Bitmap bitmap) {
+        fpsListener.calculateFps();
+      }
+    });
     rtspCamera1 = new RtspCamera1(surfaceView, this);
+    rtspCamera1.setFps(DEFAULT_FPS);
     prepareOptionsMenuViews();
 
     tvBitrate = findViewById(R.id.tv_bitrate);
@@ -179,7 +197,7 @@ public class RtspActivity extends AppCompatActivity
         (EditText) navigationView.getMenu().findItem(R.id.et_audio_bitrate).getActionView();
     etSampleRate = (EditText) navigationView.getMenu().findItem(R.id.et_samplerate).getActionView();
     etVideoBitrate.setText("2500");
-    etFps.setText("30");
+    etFps.setText(Integer.toString(DEFAULT_FPS));
     etAudioBitrate.setText("128");
     etSampleRate.setText("44100");
     etWowzaUser = (EditText) navigationView.getMenu().findItem(R.id.et_user).getActionView();
