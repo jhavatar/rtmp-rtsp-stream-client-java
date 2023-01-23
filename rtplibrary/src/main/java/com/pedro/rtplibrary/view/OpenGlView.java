@@ -207,7 +207,8 @@ public class OpenGlView extends OpenGlViewBase {
               managerRender.drawScreen(encoderWidth, encoderHeight, false, aspectRatioMode.id,
                   streamRotation, isStreamVerticalFlip, isStreamHorizontalFlip);
               takePhotoCallback.onTakePhoto(GlUtil.getBitmap(encoderWidth, encoderHeight));
-              takePhotoCallback = null;
+              // keep on calling frame bitmap callback until explicitly set callback to null
+              //takePhotoCallback = null;
               surfaceManagerPhoto.swapBuffer();
             }
           }

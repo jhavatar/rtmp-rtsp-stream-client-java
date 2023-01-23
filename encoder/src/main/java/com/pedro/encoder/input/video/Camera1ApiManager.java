@@ -378,7 +378,8 @@ public class Camera1ApiManager implements Camera.PreviewCallback, Camera.FaceDet
     int[] closestRange = fpsRanges.get(0);
     int measure = Math.abs(closestRange[0] - expectedFps) + Math.abs(closestRange[1] - expectedFps);
     for (int[] range : fpsRanges) {
-      if (range[0] <= expectedFps && range[1] >= expectedFps) {
+      Log.v("POC", "adaptFpsRange: fpsRanges = " + range[0] + ", " + range[1]);
+      if (range[0] <= expectedFps) {
         int curMeasure = Math.abs(((range[0] + range[1]) / 2) - expectedFps);
         if (curMeasure < measure) {
           closestRange = range;

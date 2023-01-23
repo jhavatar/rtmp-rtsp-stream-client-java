@@ -241,8 +241,9 @@ public class Camera2ApiManager extends CameraDevice.StateCallback {
       int measure = Math.abs(closestRange.getLower() - expectedFps) + Math.abs(
           closestRange.getUpper() - expectedFps);
       for (Range<Integer> range : fpsRanges) {
+        Log.v("POC", "adaptFpsRange: fpsRanges = " + range.getLower() + ", " + range.getUpper());
         if (CameraHelper.discardCamera2Fps(range, facing)) continue;
-        if (range.getLower() <= expectedFps && range.getUpper() >= expectedFps) {
+        if (range.getLower() <= expectedFps) {
           int curMeasure = Math.abs(((range.getLower() + range.getUpper()) / 2) - expectedFps);
           if (curMeasure < measure) {
             closestRange = range;

@@ -33,6 +33,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.pedro.encoder.input.gl.SpriteGestureController;
 import com.pedro.encoder.input.gl.render.filters.AnalogTVFilterRender;
 import com.pedro.encoder.input.gl.render.filters.AndroidViewFilterRender;
@@ -79,22 +82,19 @@ import com.pedro.encoder.input.gl.render.filters.object.SurfaceFilterRender;
 import com.pedro.encoder.input.gl.render.filters.object.TextObjectFilterRender;
 import com.pedro.encoder.input.video.CameraOpenException;
 import com.pedro.encoder.utils.gl.TranslateTo;
-import com.pedro.rtplibrary.rtsp.RtspCamera1;
+import com.pedro.rtplibrary.rtsp.RtspCamera2;
 import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtpstreamer.R;
 import com.pedro.rtpstreamer.utils.PathUtils;
 import com.pedro.rtsp.utils.ConnectCheckerRtsp;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * More documentation see:
@@ -106,7 +106,7 @@ public class OpenGlRtspActivity extends AppCompatActivity
     implements ConnectCheckerRtsp, View.OnClickListener, SurfaceHolder.Callback,
     View.OnTouchListener {
 
-  private RtspCamera1 rtspCamera1;
+  private RtspCamera2 rtspCamera1;
   private Button button;
   private Button bRecord;
   private EditText etUrl;
@@ -131,7 +131,7 @@ public class OpenGlRtspActivity extends AppCompatActivity
     switchCamera.setOnClickListener(this);
     etUrl = findViewById(R.id.et_rtp_url);
     etUrl.setHint(R.string.hint_rtsp);
-    rtspCamera1 = new RtspCamera1(openGlView, this);
+    rtspCamera1 = new RtspCamera2(openGlView, this);
     openGlView.getHolder().addCallback(this);
     openGlView.setOnTouchListener(this);
   }

@@ -22,11 +22,18 @@ package com.pedro.rtplibrary.util;
 public class FpsListener {
 
   private int fpsCont = 0;
-  private long ts = System.currentTimeMillis();
+  private long ts = -1;
   private Callback callback;
 
   public interface Callback {
     void onFps(int fps);
+  }
+
+  public FpsListener(Callback callBack) {
+    this.callback = callBack;
+  }
+
+  public FpsListener() {
   }
 
   public void setCallback(Callback callback) {
@@ -35,7 +42,11 @@ public class FpsListener {
 
   public void calculateFps() {
     fpsCont++;
-    if (System.currentTimeMillis() - ts >= 1000) {
+    long t = System.currentTimeMillis();
+    if (ts == -1) {
+      ts = t;
+    }
+    if (t - ts >= 1000) {
       if (callback != null) callback.onFps(fpsCont);
       fpsCont = 0;
       ts = System.currentTimeMillis();
